@@ -1,0 +1,106 @@
+<div class=" content-header">
+  <h1>Quản Lý Lái Xe</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Lái Xe</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height:27px"> Danh Sách Lái Xe</h3>
+      </div>
+      <a routerLink="add"> <button type="button" class="btn btn-large  btn-default btn-add-list pull-right" (click)="onCreate()">
+          <span class="glyphicon glyphicon-plus"></span>
+          Tạo Mới</button>
+      </a>
+
+    </div>
+    <div class="box-body">
+      <div class="box box-warning box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Tìm Kiếm</div>
+        <div class="panel-body">
+          <div class="form-group" (keyup.enter)="searchDriver(keyword1.value)">
+            <div class="row">
+              <div class="col-md-5">
+                <input autocomplete="off" type="text" name="keyword" class="form-control" #keyword1 = ngModel [(ngModel)]="keyword" placeholder="Nhập Tên Lái Xe">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-large  btn-default btn-search" (click)="searchDriver(keyword1.value)">
+                  <i class="glyphicon glyphicon-search"></i>
+                  Tìm Kiếm</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="box box-danger box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">
+          Danh Sách
+        </div>
+
+        <table class="table table-bordered table-hover dataTable">
+          <tr class="title-list">
+            <th>STT</th>
+            <th>Họ tên</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Biển số</th>
+            <th class="col-sm-1"></th>
+          </tr>
+          <tr *ngFor="let data of userList; index as i " [ngClass]="i%2==0 ? '' : 'trClass'" >
+            <td routerLink="view/{{data.id}}">{{10*(currentPage-1) +i+1}}</td>
+            <td routerLink="view/{{data.id}}">{{data.hoTen}}</td>
+            <td routerLink="view/{{data.id}}">{{data.sdt}}</td>
+            <td routerLink="view/{{data.id}}">{{data.diaChi}}</td>
+            <td routerLink="view/{{data.id}}">{{data.bienSo}}</td>
+            <td>
+
+              <div class="col-sm-6 text-center">
+                <a routerLink="edit/{{data.id}}">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </a>
+              </div>
+              <div class="col-sm-6 text-center">
+                <a (click)="onDelete(data.id)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </div>
+            </td>
+
+          </tr>
+          <!-- <tr *ngIf="userList?.length < 1">
+                <td  colspan ="6">không có bản ghi</td>
+              </tr>  -->
+        </table>
+        <div class="form-group pull-left" style="margin-top: 20px">
+          <select #pageDown class="form-control" id="sel1" name="pagedown" (change)="Changed(pageDown.value)">
+            <option hidden>Hiển thị dòng</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+          </select>
+
+        </div>
+        <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

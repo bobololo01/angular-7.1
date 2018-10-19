@@ -1,0 +1,189 @@
+<div class=" content-header">
+  <h1>Quản Lý Lái Xe</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Lái Xe</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info box-solid">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height:27px"> Thông tin lái xe</h3>
+      </div>
+
+
+    </div>
+    <div class="box-body">
+      <div class="ct-donhang-driver">
+        <ul>
+          <li>
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span class="driver-title-list">Họ tên:</span>
+            <span>{{userList.hoTen}}</span>
+          </li>
+          <li>
+            <i class="fa fa-mobile" aria-hidden="true"></i>
+            <span class="driver-title-list">Số điện thoại:</span>
+            <span>{{userList.sdt}}</span>
+          </li>
+          <li>
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span class="driver-title-list">Địa chỉ:</span>
+            <span>{{userList.diaChi}}</span>
+          </li>
+          <li>
+            <i class="fa fa-car" aria-hidden="true"></i>
+            <span class="driver-title-list">Biển số:</span>
+            <span>{{userList.bienSo}}</span>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="box box-success">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height:27px"> Đơn hàng được giao</h3>
+      </div>
+
+
+    </div>
+    <div class="box-body">
+
+      <div class="box-hang box-body">
+        <div class="box box-danger box-solid">
+          <!-- Default panel contents -->
+          <div class="box-header">
+            Danh Sách
+          </div>
+
+          <table class="table table-bordered table-hover dataTable">
+            <tr class="title-list">
+              <th>STT</th>
+              <th>Tên Hàng</th>
+              <th>SĐT người gửi</th>
+              <th>SĐT người nhận</th>
+              <th>Nơi Nhận</th>
+              <th>Nơi Trả</th>
+              <th>Trạng Thái</th>
+
+            </tr>
+            <tr *ngFor="let data of orderList ; index as i " [ngClass]="i%2==0 ? 'cusor' : 'cusor trClass'" (click)="getDetailProduct(data.id)">
+              <td data-toggle="modal" data-target="#myModal1">{{pageSize*(currentPage-1) +i+1}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.tenHang}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.soDienThoaiNguoiGui}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.soDienThoaiNguoiNhan}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.diemNhanHang}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.diemTraHang}}</td>
+              <td data-toggle="modal" data-target="#myModal1">{{data.statusName}}</td>
+
+
+            </tr>
+            <tr *ngIf="orderList?.length < 1">
+              <td>không có bản ghi</td>
+            </tr>
+          </table>
+          <div class="form-group pull-left" style="margin-top: 20px">
+            <select #pageDown class="form-control" id="sel1" name="pagedown" (change)="Changed(pageDown.value)">
+              <option hidden>Hiển thị dòng</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="500">500</option>
+            </select>
+
+          </div>
+          <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+  <div class="modal-dialog list-product">
+
+    <!-- Modal content-->
+    <div class="modal-content ct-donhang">
+      <div class="row">
+        <h3>Thông tin đơn hàng</h3>
+        <div class="col-md-8">
+          <ul>
+            <li>
+              <span class="title-list">Mã đơn hàng:</span>
+              <span>{{detailProduct.maDonHang}}</span>
+            </li>
+            <li>
+              <span class="title-list">Tên hàng:</span>
+              <span>{{detailProduct.tenHang}}</span>
+            </li>
+            <li>
+              <span class="title-list">Điểm nhận hàng:</span>
+              <span>{{detailProduct.diemNhanHang}}</span>
+            </li>
+            <li>
+              <span class="title-list">Điểm trả hàng:</span>
+              <span>{{detailProduct.diemTraHang}}</span>
+            </li>
+            <li>
+              <span class="title-list">Ngày bốc hàng:</span>
+              <span>{{detailProduct.ngayBocHang | date:"dd/MM/yyyy"}}</span>
+            </li>
+            <li>
+              <span class="title-list">Số điện thoại người gửi:</span>
+              <span>{{detailProduct.soDienThoaiNguoiGui}}</span>
+            </li>
+            <li>
+              <span class="title-list">Số điện thoại người nhận:</span>
+              <span>{{detailProduct.soDienThoaiNguoiNhan}}</span>
+            </li>
+            <li>
+              <span class="title-list">Khối lượng:</span>
+              <span>{{detailProduct.khoiLuong | number}} {{donViTinhKhoiLuong}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều dài:</span>
+              <span>{{detailProduct.dai | number}} {{donViTinhTheTich}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều rộng:</span>
+              <span>{{detailProduct.rong | number}} {{donViTinhTheTich}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều cao:</span>
+              <span>{{detailProduct.cao | number}} {{donViTinhTheTich}}</span>
+            </li>
+            <li>
+              <span class="title-list">Điểm nhận tiền:</span>
+              <span>{{detailProduct.diemNhanTien}}</span>
+            </li>
+            <li>
+              <span class="title-list">Giá khách hàng đưa:</span>
+              <span>{{detailProduct.giaKhachHangDua | number}} VND</span>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class=" content-header">
+  <h1>Quảng cáo</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quảng cáo</a>
+    </li>
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info box-solid">
+    <form #AdsForm="ngForm" (ngSubmit)="submitForm(AdsForm)" class="form-horizontal">
+      <div class="box-header with-border" id="box-blue">
+        <h3 class="box-title">{{Title}}</h3>
+      </div>
+      <div class="box-body">
+        
+        <input type="hidden" name="id" #id="ngModel" [(ngModel)]="model.id">
+        <div class="form-group row ">
+          <label class="col-sm-2 control-label">Tiêu Đề</label>
+          <div class="col-sm-8">
+            <input type="text" name="tieuDe" #tieuDe="ngModel" [(ngModel)]="model.tieuDe" class="form-control" >
+          </div>
+        </div>
+        <div class="form-group row ">
+          <label class="col-sm-2 control-label">Nội Dung</label>
+          <div class="col-sm-8">
+            <textarea type="textarea" class="form-control" name="noiDung" #noiDung="ngModel" [(ngModel)]="model.noiDung" rows="10"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="!AdsForm.valid">
+          <i class="glyphicon glyphicon-floppy-disk"></i> Lưu</button>
+        <button type="button" (click)="cancel(Form)" class="btn btn-default   pull-right">
+          <i class="glyphicon glyphicon-remove"></i> Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+

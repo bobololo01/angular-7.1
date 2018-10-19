@@ -1,0 +1,57 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header"></li>
+      <li class="treeview"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/dashboard">
+          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="treeview"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink = "/order">
+          <i class="fa fa-edit"></i>
+          <span>Quản Lý Đơn Hàng</span>
+        
+        </a>
+      </li>
+      <li class="treeview" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/Cars">
+          <i class="fa fa-car"></i> <span>Quản Lý Phương Tiện</span>
+         
+        </a>
+      </li>
+      <li class="treeview" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/drivers">
+          <i class="fa fa-car"></i> <span>Quản Lý Lái Xe</span>
+         
+        </a>
+      </li>
+      <li class="treeview" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/advertisement">
+          <i class="fa fa-bullhorn"></i> <span>Quảng Cáo & Khuyến Mại</span>
+         
+        </a>
+      </li>
+   
+      <li class="treeview"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink = "/admin/car-type"  (click)="shown = 'EQUIFAX'" class="quanly">
+            <i class="fa fa-table"></i> <span>Quản Lý</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu menu-quanly" *ngIf="shown === 'EQUIFAX'">
+            <li><a  routerLink = "/admin/car-type"><i class="fa fa-circle-o"></i>Loại Xe</a></li>
+            <li><a routerLink="/admin/units"><i class="fa fa-circle-o"></i>Đơn vị tính</a></li>
+            <li><a routerLink="/admin/users" aria-disabled="true"><i class="fa fa-circle-o"></i>Users</a></li>
+            <li><a  routerLink = "/admin/handleunit"><i class="fa fa-circle-o"></i>Đơn vị quản lý</a></li>
+          </ul>
+        </li>
+ 
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>
+

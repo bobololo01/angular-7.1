@@ -1,0 +1,205 @@
+<div class=" content-header">
+  <h1>Quản Lý Phương Tiện</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Cập nhật mới xe</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info box-solid">
+    <div class="box-header with-border" translate>
+      <h3 class="box-title"> Cập nhật phương tiện</h3>
+    </div>
+    <div class="box-body">
+      <div class="box-group" id="accordion">
+        <form #UserForm="ngForm" (ngSubmit)="submitForm(UserForm)" class="form-horizontal">
+          <input hidden [(ngModel)]="selectedCar.id" name="id" #id="ngModel">
+          <div class="box-body">
+
+            <div class="panel box box-primary noshadow">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="" aria-expanded="true">
+                    Thông Tin Chi Tiết
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="box-body">
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập chủ xe</p>
+                      <select type="text" name="userId" #userId="ngModel" [(ngModel)]="selectedCar.laiXeId" class="form-control">
+                       
+                        <option  [value]="selectedCar.laiXeId" selected>{{tenLaixe}}</option>
+                      </select>
+                        
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Loại xe</p>
+                      <select type="text" name="loaiXe" #loaiXe="ngModel" [(ngModel)]="selectedCar.loaiXe" class="form-control" required>
+                        <option value="">-- Chọn --</option>
+                        <option *ngFor="let item of lstCarType" [value]="item.id">{{item.ten}}</option>
+                      </select>
+                      <p *ngIf="loaiXe.errors?.required" class="valition-form">
+                        Chọn chủ xe (*).
+                      </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Đơn vị quản lý</p>
+                      <select name="donViQuanLy" #donViQuanLy="ngModel" [(ngModel)]="selectedCar.donViQuanLy" class="form-control" required>
+                        <option value="">-- Chọn --</option>
+                        <option *ngFor="let item of lstDonVi" [value]="item.id">{{item.tenDonVi}}</option>
+                      </select>
+                      <p *ngIf="donViQuanLy.errors?.required" class="valition-form">
+                        Chọn đơn vị quản lý (*).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Biển số</p>
+                      <input type="text" name="bienSo" #bienSo="ngModel" [(ngModel)]="selectedCar.bienSo" class="form-control" required>
+                      <p *ngIf="bienSo.errors?.required" class="valition-form">
+                        Nhập biển số (*).
+                      </p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Trọng tải</p>
+                      <input type="text" name="trongTai" #trongTai="ngModel" [(ngModel)]="selectedCar.trongTai" class="form-control" required>
+                      <p *ngIf="trongTai.errors?.required" class="valition-form">
+                        Nhập trọng tải (*).
+                      </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Chọn đơn vị tính</p>
+                      <select class="form-control" name="donViTinhKhoiLuong" #donViTinhKhoiLuong="ngModel" [(ngModel)]="selectedCar.donViTinhKhoiLuong"
+                        required>
+
+                        <option value="">--chon--</option>
+                        <option *ngFor="let donViTinh of lstDonViTinhKhoiLuong" [value]="donViTinh.id">{{donViTinh.ten}}</option>
+                      </select>
+                      <p *ngIf="donViTinhKhoiLuong.errors?.required" class="valition-form">
+                        Chọn đơn vị tính (*).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Nhập chiều dài</p>
+                      <input type="number" name="dai" #dai="ngModel" [(ngModel)]="selectedCar.dai" class="form-control" placeholder="Nhập chiều dài"
+                        required>
+                      <p *ngIf="dai.errors?.required" class="valition-form">
+                        Nhập chiều dài (*).
+                      </p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Nhập chiều rộng</p>
+                      <input type="number" name="rong" #rong="ngModel" [(ngModel)]="selectedCar.rong" class="form-control" placeholder="Nhập chiều rộng"
+                        required>
+                      <p *ngIf="rong.errors?.required" class="valition-form">
+                        Nhập chiều rộng (*).
+                      </p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Nhập chiều cao</p>
+                      <input type="number" name="cao" #cao="ngModel" [(ngModel)]="selectedCar.cao" class="form-control" placeholder="Nhập chiều cao"
+                        required>
+                      <p *ngIf="cao.errors?.required" class="valition-form">
+                        Nhập chiều cao (*).
+                      </p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Chọn đơn vị tính</p>
+                      <select class="form-control" name="donViTinhTheTich" #donViTinhTheTich="ngModel" [(ngModel)]="selectedCar.donViTinhTheTich"
+                        required>
+                        <option value="">--chọn--</option>
+                        <option *ngFor="let donvitinh of lstDonViTinhTheTich" [value]="donvitinh.id">{{donvitinh.ten}}</option>
+                      </select>
+                      <p *ngIf="donViTinhTheTich.errors?.required" class="valition-form">
+                        Chọn kích thước (*).
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="panel box box-danger noshadow">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="" aria-expanded="true">
+                    Hình Ảnh Xe
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true" >
+                <div class="box-body">
+                  <div class="row margin-bot20">
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Ảnh đăng ký mặt trước</p>
+                      <input type="file" (change)="ChangeSelectedFile($event,'anhDangKyMatTruoc')" class="form-control">
+
+                      <div *ngIf="anhDangKyMatTruocUrl" class="thumbnail">
+                        <img [src]="anhDangKyMatTruocUrl">
+                      </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Ảnh đăng ký mặt sau</p>
+                      <input type="file" (change)="ChangeSelectedFile($event,'anhDangKyMatSau')" class="form-control">
+                      <div *ngIf="anhDangKyMatSauUrl" class="thumbnail">
+                        <img [src]="anhDangKyMatSauUrl">
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Ảnh đầu xe</p>
+                      <input type="file" (change)="ChangeSelectedFile($event,'anhDauXe')" class="form-control">
+                      <div *ngIf="anhDauXeUrl" class="thumbnail">
+                        <img [src]="anhDauXeUrl">
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Ảnh thân xe</p>
+                      <input type="file" (change)="ChangeSelectedFile($event,'anhThanXe')" class="form-control">
+                      <div *ngIf="anhThanXeUrl" class="thumbnail">
+                        <img [src]="anhThanXeUrl">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <button type="submit" class="btn btn-primary" [disabled]="!UserForm.valid">
+                  <i class="glyphicon glyphicon-floppy-disk"></i> Lưu</button>
+                <button type="button" (click)="onActive($event)" class="btn btn-primary bt-active ">
+                  <i class="glyphicon glyphicon-check"></i>{{clicked}}</button>
+
+                <button type="button" (click)="onCancel(model)" class="btn btn-default   pull-right">
+                  <i class="glyphicon glyphicon-remove"></i> Hủy</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>

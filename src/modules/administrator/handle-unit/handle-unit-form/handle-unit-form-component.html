@@ -1,0 +1,75 @@
+<div class=" content-header">
+  <h1>Đơn vị Quản Lý</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Thêm mới đơn vị</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+      <h3 class="box-title"> {{Title}} Đơn vị</h3>
+    </div>
+    <div class="box-body">
+      <div class="">
+        <form #HandelForm="ngForm" (ngSubmit)="submitForm(HandelForm)" class="form-horizontal">
+          <div class="box-body">
+            <div class="addorder-form">
+              <input type="hidden" name="id" #id="ngModel" [(ngModel)]="handel.id">
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <p class="title-order">Tên đơn vị</p>
+                  <input type="text" name="tenDonVi" #tenDonVi="ngModel" [(ngModel)]="handel.tenDonVi" class="form-control"
+                    required>
+                  <p *ngIf="tenDonVi.errors?.required" class="valition-form">
+                    Nhập họ tên (*).
+                  </p>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <p class="title-order">Số điện thoại</p>
+                  <input type="number" name="sdt" #sdt="ngModel" [(ngModel)]="handel.sdt" class="form-control" required>
+                  <p *ngIf="sdt.errors?.required" class="valition-form">
+                    Nhập số điện thoại (*).
+                  </p>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <p class="title-order">Địa chỉ</p>
+                  <input type="text" name="diaChi" #diaChi="ngModel" [(ngModel)]="handel.diaChi" class="form-control"
+                    required>
+                  <p *ngIf="diaChi.errors?.required" class="valition-form">
+                    Nhập địa chỉ (*).
+                  </p>
+                </div>
+
+
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <button type="submit" class="btn btn-primary" [disabled]="!HandelForm.valid"><i class="glyphicon glyphicon-floppy-disk"></i>
+                    Lưu</button>
+                  <button type="button" (click)="cancel(HandelForm)" class="btn btn-default   pull-right"><i class="glyphicon glyphicon-remove"></i>
+                    Hủy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+<div class="box box-info" *ngIf="unit!=undefined">
+  <form #Form="ngForm" (ngSubmit)="submitForm(Form)" class="form-horizontal">
+    <div class="box-header with-border">
+      <h3 class="box-title">{{Title}}</h3>
+    </div>
+    <div class="box-body">
+      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="unit.id">
+      <div class="form-group row ">
+        <label class="col-sm-2 control-label">Đơn vị</label>
+        <div class="col-sm-8">
+          <input type="text" name="ten" #ten="ngModel" [(ngModel)]="unit.ten" class="form-control" required>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-2 control-label">Loại Đơn Vị</label>
+        <div class="col-sm-8">
+          <select class="form-control" name="loaiDonVi" [(ngModel)]="unit.loaiDonVi">
+            <option value="" selected>-- chọn --</option>
+            <option value="1">Đo Cân Nặng</option>
+            <option value="0">Đo Khoảng Cách</option>
+            </select>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-2 control-label">Kích Hoạt</label>
+        <div class="col-sm-8">
+          <div class="checkbox">
+            <input type="checkbox" class="form-check-input" name="isActive"   #isActive="ngModel" [(ngModel)]="unit.isActive"  >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-footer">
+
+      <button type="submit" class="btn btn-primary" [disabled]="!Form.valid">
+        <i class="glyphicon glyphicon-floppy-disk"></i> Lưu</button>
+      <button type="button" (click)="cancel(Form)" class="btn btn-default pull-right">
+        <i class="glyphicon glyphicon-remove"></i> Hủy</button>
+    </div>
+  </form>
+</div>

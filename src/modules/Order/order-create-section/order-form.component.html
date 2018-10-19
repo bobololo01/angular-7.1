@@ -1,0 +1,261 @@
+<div class=" content-header">
+  <h1>{{Title}} Đơn Hàng</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#" >Thêm đơn hàng</a>
+    </li>
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info box-solid">
+    <div class="box-header with-border" translate>
+      <p style="margin:5px 0 5px 10px;font-size : 15px">
+        <span class="statusTitle" >Trạng thái đơn hàng: </span>
+        <span class="statusClass"  style="color:#da1010;font-weight: 600">{{statusName}}</span>
+      </p>
+
+    </div>
+    <div class="box-body">
+      <div class="box-group" id="accordion">
+        <form #OrderForm="ngForm" (ngSubmit)="submitForm(OrderForm)" class="form-horizontal">
+
+          <div class="box-body">
+
+            <input type="hidden" name="id" #id="ngModel" [(ngModel)]="order.id">
+
+            <div class="panel box box-primary noshadow">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="" aria-expanded="true">
+                    Thông Tin Khách Hàng
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+                <div class="box-body">
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập tên hàng</p>
+                      <input type="text" name="tenHang" #tenHang="ngModel" [(ngModel)]="order.tenHang" class="form-control"
+                        required placeholder="Nhập tên hàng">
+                      <p *ngIf="tenHang.errors?.required" class="valition-form">
+                        Nhập tên hàng (*).
+                      </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Số điện thoại người gửi</p>
+                      <input type="text" name="soDienThoaiNguoiGui" #soDienThoaiNguoiGui="ngModel" [(ngModel)]="order.soDienThoaiNguoiGui"
+                        (keypress)="keyPress($event)" minlength="10" maxlength=10 class="form-control" placeholder="Số điện thoại người gửi"
+                        required>
+                      <p *ngIf="soDienThoaiNguoiGui.errors?.required" class="valition-form">
+                        Nhập số điện thoại người gửi (*).
+                      </p>
+                      <p *ngIf="soDienThoaiNguoiGui.errors?.minlength" class="valition-form">Số điện thoại nhập không
+                        đúng</p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Số điện thoại người nhận</p>
+                      <input type="text" name="soDienThoaiNguoiNhan" #soDienThoaiNguoiNhan="ngModel" [(ngModel)]="order.soDienThoaiNguoiNhan"
+                        (keypress)="keyPress($event)" minlength="10" maxlength=10 class="form-control" placeholder="Số điện thoại người nhận"
+                        required>
+                      <p *ngIf="soDienThoaiNguoiNhan.errors?.required" class="valition-form">
+                        Nhập số điện thoại người nhận (*).
+                      </p>
+                      <p *ngIf="soDienThoaiNguoiNhan.errors?.minlength" class="valition-form">Số điện thoại nhập không
+                        đúng</p>
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Ngày bốc hàng</p>
+                      <input autocomplete="off" name="ngayBocHang" [(ngModel)]="order.ngayBocHang" placeholder="Số điện thoại người gửi"
+                        #ngayBocHang="ngModel" type="text" class="form-control" [minDate]="minDate" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" required>
+                      <p *ngIf="ngayBocHang.errors?.required" class="valition-form">
+                        Nhập ngày bốc hàng (*).
+                      </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Giá khách hàng đưa</p>
+                      <input autocomplete="off" type="text" name="giaKhachHangDua" #giaKhachHangDua="ngModel" (keypress)="keyPress($event)"
+                        [ngModel]="order.giaKhachHangDua | number" (ngModelChange)="order.giaKhachHangDua = pipeChanged($event)"
+                        class="form-control" placeholder="Nhập giá khách hàng đưa" required>
+                      <p *ngIf="giaKhachHangDua.errors?.required" class="valition-form">
+                        Nhập giá khách hàng đưa (*).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+                    <div class="col-md-6 col-sm-6">
+                      <p class="title-order">Nhập điểm nhận hàng</p>
+                      <input google-place (onSelect)="setAddress1($event)" type="text" name="diemNhanHang" #diemNhanHang="ngModel" [(ngModel)]="order.diemNhanHang" class="form-control" placeholder="Nhập điểm nhận hàng" required>
+                      <p *ngIf="diemNhanHang.errors?.required" class="valition-form">
+                        Nhập điểm nhận hàng (*).
+                      </p>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                      <p class="title-order">Nhập điểm trả hàng</p>
+                      <input google-place (onSelect)="setAddress2($event)" type="text" name="diemTraHang" #diemTraHang="ngModel" [(ngModel)]="order.diemTraHang" class="form-control" placeholder="Nhập điểm trả hàng" required>
+                      <p *ngIf="diemTraHang.errors?.required" class="valition-form">
+                        Nhập điểm nhận hàng (*).
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row margin-bot20">
+                    <div class="col-md-6 col-sm-6">
+                      <p class="title-order">Điểm nhận tiền</p>
+                      <input type="text" name="diemNhanTien" #diemNhanTien="ngModel" [(ngModel)]="order.diemNhanTien"
+                        class="form-control" placeholder="Điểm nhận tiền" required>
+                      <p *ngIf="diemNhanTien.errors?.required" class="valition-form">
+                        Nhập điểm nhận tiền (*).
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="panel box box-danger noshadow">
+              <div class="box-header with-border">
+                <h4 class="box-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="" aria-expanded="true">
+                    Thông Tin Sản Phẩm
+                  </a>
+                  
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true" style="">
+                <div class="box-body">
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập khối lượng</p>
+                      <input autocomplete="off" type="text" name="khoiLuong" #khoiLuong="ngModel" (keypress)="keyPress($event)" [ngModel]="order.khoiLuong | number"
+                        (ngModelChange)="order.khoiLuong = pipeChanged($event)" class="form-control" min="0"
+                        placeholder="Nhập khối lượng">
+                      <!-- <p *ngIf="khoiLuong.errors?.required" class="valition-form">
+                        Nhập khối lượng (*).
+                      </p> -->
+
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Chọn đơn vị tính</p>
+                      <select class="form-control" name="donViTinhKhoiLuongId" #donViTinhKhoiLuongId="ngModel"
+                        [(ngModel)]="order.donViTinhKhoiLuongId">
+
+                        <option value="">--chon--</option>
+                        <option *ngFor="let donViTinh of lstDonViTinhKhoiLuong" [value]="donViTinh.id">{{donViTinh.ten}}</option>
+                      </select>
+                      <!-- <p *ngIf="donViTinhKhoiLuongId.errors?.required" class="valition-form">
+                        Chọn đơn vị tính (*).
+                      </p> -->
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập chiều dài</p>
+                      <input autocomplete="off" type="text" name="dai" #dai="ngModel" (keypress)="keyPress($event)" [ngModel]="order.dai | number" (ngModelChange)="order.dai = pipeChanged($event)"
+                        class="form-control" placeholder="Nhập chiều dài" min="0">
+                      <!-- <p *ngIf="dai.errors?.required" class="valition-form">
+                        Nhập chiều dài (*).
+                      </p> -->
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập chiều rộng</p>
+                      <input autocomplete="off" type="text" name="rong" #rong="ngModel" (keypress)="keyPress($event)" [ngModel]="order.rong | number" (ngModelChange)="order.rong = pipeChanged($event)"
+                        class="form-control" placeholder="Nhập chiều rộng" min="0">
+                      <!-- <p *ngIf="rong.errors?.required" class="valition-form">
+                        Nhập chiều rộng (*).
+                      </p> -->
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Nhập chiều cao</p>
+                      <input autocomplete="off" type="text" name="cao" #cao="ngModel" (keypress)="keyPress($event)" [ngModel]="order.cao | number"
+                        (ngModelChange)="order.cao = pipeChanged($event)" class="form-control" placeholder="Nhập chiều cao" min="0">
+                      <!-- <p *ngIf="cao.errors?.required" class="valition-form">
+                        Nhập chiều cao (*).
+                      </p> -->
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Chọn đơn vị tính</p>
+                      <select class="form-control" name="donViTinhTheTichId" #donViTinhTheTichId="ngModel" [(ngModel)]="order.donViTinhTheTichId">
+                        <option value="">--chọn--</option>
+                        <option *ngFor="let donvitinh of lstDonViTinhTheTich" [value]="donvitinh.id">{{donvitinh.ten}}</option>
+                      </select>
+                      <!-- <p *ngIf="donViTinhTheTichId.errors?.required" class="valition-form">
+                        Chọn kích thước (*).
+                      </p> -->
+                    </div>
+                  </div>
+
+                  <div class="row margin-bot20">
+
+                    <div class="col-md-4 col-sm-4">
+                      <p class="title-order">Ảnh hàng</p>
+                      <input type="file" (change)="ChangeSelectedFile($event,'anhHang')" class="form-control">
+
+                      <div *ngIf="imageUrl" class="thumbnail">
+                        <img [src]="imageUrl">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div id="qchidden" class="row">
+                    <div class=" qcbackground">
+
+                      <div id="print-image" class="qrcode-image">
+
+                        <qrcode [qrdata]="angularxQrCode" [size]="200" [level]="'M'"></qrcode>
+
+                      </div>
+                      <p class="madh">{{order.maDonHang}}</p>
+                      <div class="print-qrcode" style="margin:20px 68px  22px">
+                        <button type="button" (click)='print()' class="btn btn-success">In mã QRCode</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <button type="submit" class="btn btn-primary" [disabled]="!OrderForm.valid">
+                  <i class="glyphicon glyphicon-floppy-disk"></i> Lưu</button>
+                <button *ngIf="order.id" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
+                  style="margin-left: 10px;">
+                  <i class="glyphicon glyphicon-lock"></i> QRCODE</button>
+                <workflow *ngIf="order.id"></workflow>
+                <button type="button" (click)="cancel()" class="btn btn-default   pull-right">
+                  <i class="glyphicon glyphicon-remove"></i> Hủy</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+

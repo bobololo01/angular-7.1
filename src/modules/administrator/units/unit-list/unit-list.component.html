@@ -1,0 +1,105 @@
+<div class=" content-header">
+  <h1>Quản Lý Đơn Vị Tính</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Đơn Vị Tính</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height: 27px">Danh Sách Đơn Vị Tính</h3>
+      </div>
+      <div class="pull-right">
+        <a>
+          <button type="button" class="btn btn-large  btn-default btn-add-list" (click)="onCreate()">
+            <span class="glyphicon glyphicon-plus"></span>
+            Tạo Mới</button>
+        </a>
+      </div>
+
+
+    </div>
+    <div class="box-body">
+      <div class="box box-warning box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Tìm Kiếm</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <form #SearchUnitForm="ngForm" class="form-horizontal">
+              <div class="row">
+                <div class="col-md-5">
+                  <input type="text" name="ten" class="form-control" (change)="loadListData()" [(ngModel)]="ten" placeholder="Tìm kiếm theo tên đơn vị...">
+                </div>
+                <!-- <div class="col-md-5">
+                  <select class="form-control" name="LoaiDV" [(ngModel)]="viewModel.LoaiDV">
+                    <option value="">-- chọn --</option>
+                    <option *ngFor="let item of viewModel.lstLoaiDV" value="item.value">{{item.name}}</option>
+                  </select>
+                </div> -->
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-large  btn-default btn-search" (click)="loadListData()">
+                    <i class="glyphicon glyphicon-search"></i>
+                    Tìm Kiếm</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="box box-success box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">
+          Danh Sách
+        </div>
+        <table class="table table-bordered table-hover dataTable">
+          <tr>
+            <th>#</th>
+            <th class="col-sm-5">Đơn Vị</th>
+            <th class="col-sm-5">Loại Đơn Vị</th>
+            <th class="col-sm-2"></th>
+          </tr>
+          <tr *ngFor="let data of listUnit ; index as i">
+            <td>{{i+1}}</td>
+            <td>{{data.ten}}</td>
+            <td *ngIf="data.loaiDonVi == 1">Đo cân nặng</td>
+            <td *ngIf="data.loaiDonVi == 0">Đo khoảng cách</td>
+            <td>
+              <div class="col-sm-6 text-center">
+                <a (click)="onEdit(data)">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </a>
+              </div>
+              <div class="col-sm-6 text-center">
+                <a (click)="onDelete(data.id)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </div>
+
+            </td>
+          </tr>
+        </table>
+        <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+        <!-- <pagination [totalItems]="30"></pagination> -->
+      </div>
+    </div>
+
+
+  </div>
+  <unit-form [unit]="slectedUnit" (loadList)="loadListData()" (clearSelectedUnit)="clearSelectedUnit()"></unit-form>
+</div>

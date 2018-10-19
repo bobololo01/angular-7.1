@@ -1,0 +1,163 @@
+<div class=" content-header">
+  <h1>Quản Lý Xe</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Xe</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height: 27px">Danh Sách Xe</h3>
+      </div>
+      <!-- <div class="pull-right">
+        <a routerLink="add">
+          <button type="button" class="btn btn-large  btn-default btn-add-list" (click)="onCreate()">
+            <span class="glyphicon glyphicon-plus"></span>
+            Tạo Mới</button>
+        </a>
+      </div> -->
+
+    </div>
+    <div class="box-body">
+      <div class="box box-warning box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Tìm Kiếm</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-5">
+                <input type="text" name="tenChuXe" class="form-control" [(ngModel)]="tenChuXe" placeholder="Nhập tên chủ xe" (keyup.enter)="loadListData()">
+              </div>
+              <div class="col-md-5">
+                <input type="text" name="bienSo" class="form-control" [(ngModel)]="bienSo" placeholder="Nhập biển số" (keyup.enter)=" loadBienSoData()">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-large  btn-default btn-search" (click)="ButtonSelected(bienSo,tenChuXe)">
+                  <i class="glyphicon glyphicon-search"></i>
+                  Tìm Kiếm</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="box box-success box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">
+    
+          Danh Sách
+    
+        </div>
+    
+        <table class="table table-bordered table-hover dataTable">
+          <tr class="title-list">
+            <th>STT</th>
+            <th>Tên Chủ</th>
+            <th>Loại Xe</th>
+            <th>Đơn vị quản lý</th>
+            <th>Biển số</th>
+            <th>Trọng Tải</th>
+            <th>Trạng thái</th>
+            <th class="col-sm-1"></th>
+          </tr>
+          <tr *ngFor="let data of carList; index as i " [ngClass]="i%2==0 ? '' : 'trClass'"
+            (click)="carDetail(data.id)">
+            <td data-toggle="modal" data-target="#myModal1">{{10*(currentPage-1) +i+1}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.tenChuXe}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.tenLoaiXe}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.tenDonViQuanLy}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.bienSo}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.trongTai}}</td>
+            <td data-toggle="modal" data-target="#myModal1" *ngIf="data.actived==true">Active</td>
+            <td data-toggle="modal" data-target="#myModal1" *ngIf="data.actived==false">Inactive</td>
+            <td>
+              <div class="col-sm-6 text-center">
+                <a routerLink="edit/{{data.id}}">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </a>
+              </div>
+              <div class="col-sm-6 text-center">
+                <a (click)="onDelete(data.id)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          <!-- <tr *ngIf="orderList?.length < 1">
+            <td colspan="6">không có bản ghi</td>
+          </tr> -->
+        </table>
+        <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+  <div class="modal-dialog list-product">
+
+    <!-- Modal content-->
+    <div class="modal-content ct-donhang">
+      <div class="row">
+        <h3>Thông tin phương tiện</h3>
+        <div class="col-md-12">
+          <ul>
+            <li>
+              <span class="title-list">Chủ xe:</span>
+              <span>{{carDetailModel.tenChuXe}}</span>
+            </li>
+            <li>
+              <span class="title-list">Loại xe:</span>
+              <span>{{carDetailModel.tenLoaiXe}}</span>
+            </li>
+            <li>
+              <span class="title-list">Đơn vị quản lý:</span>
+              <span>{{carDetailModel.tenDonViQuanLy}}</span>
+            </li>
+            <li>
+              <span class="title-list">Biển số:</span>
+              <span>{{carDetailModel.bienSo}}</span>
+            </li>
+            <li>
+              <span class="title-list">Trọng tải:</span>
+              <span>{{carDetailModel.trongTai}} {{carDetailModel.donViTinhKhoiLuong}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều dài:</span>
+              <span>{{carDetailModel.dai}} {{carDetailModel.donViTinhTheTich}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều rộng:</span>
+              <span>{{carDetailModel.rong}} {{carDetailModel.donViTinhTheTich}}</span>
+            </li>
+            <li>
+              <span class="title-list">Chiều cao:</span>
+              <span>{{carDetailModel.cao}} {{carDetailModel.donViTinhTheTich}}</span>
+            </li>
+
+          </ul>
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div class=" content-header">
+  <h1>Quản Lý Xe</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Loại Xe</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height: 27px">Danh Sách Xe</h3>
+      </div>
+      <div class="pull-right">
+        <a>
+          <button type="button" class="btn btn-large  btn-default btn-add-list" (click)="onCreate()">
+            <span class="glyphicon glyphicon-plus"></span>
+            Tạo Mới</button>
+        </a>
+      </div>
+
+    </div>
+    <div class="box-body">
+      <div class="box box-warning box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Tìm Kiếm</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <form #SearhForm="ngForm" class="form-horizontal">
+              <div class="row">
+                <div class="col-md-5">
+                  <input type="text" name="LoaiXe" class="form-control" (change)="loadListData()"
+                  [(ngModel)]="LoaiXe" placeholder="Tìm kiếm theo loại xe...">
+                </div>
+
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-large  btn-default btn-search" (click)="loadListData()">
+                    <i class="glyphicon glyphicon-search"></i>
+                    Tìm Kiếm</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="box box-danger box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Danh Sách</div>
+        <table class="table table-bordered table-hover dataTable">
+          <tr class="title-list">
+            <th class="col-sm-1">STT</th>
+            <th class="col-sm-9">Loại Xe</th>
+            <th class="col-sm-2"></th>
+          </tr>
+          <tr *ngFor="let data of lstCarType; index as i" [ngClass]="i%2==0 ? '' : 'trClass'">
+            <td>{{10*(currentPage-1) +i+1}}</td>
+            <td>{{data.ten}}</td>
+            <td>
+              <div class="col-sm-6 text-center">
+                <a (click)="onEdit(data)">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </a>
+              </div>
+              <div class="col-sm-6 text-center">
+                <a (click)="onDelete(data.id)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </div>
+
+            </td>
+          </tr>
+        </table>
+       
+      </div>
+      <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+
+
+  </div>
+  <car-type-form [carType]="selectedCarType" (loadList)="loadListData()" (clearSelectedCarType)="clearSelectedCarType()"></car-type-form>
+</div>

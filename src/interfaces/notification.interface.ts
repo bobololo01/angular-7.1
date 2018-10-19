@@ -1,0 +1,3 @@
+interface INotificationService {
+    sendMessage();
+}

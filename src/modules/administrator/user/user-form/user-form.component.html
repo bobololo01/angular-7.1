@@ -1,0 +1,109 @@
+<div class=" content-header">
+  <h1>Quản Lý User</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Thêm mới User</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+      <h3 class="box-title"> {{Title}} User</h3>
+    </div>
+    <div class="box-body">
+      <div class="" >
+          <form #UserForm="ngForm" (ngSubmit)="submitForm(UserForm)" class="form-horizontal">
+          
+            <div class="box-body">
+               
+                  
+                   
+                   <div class="addorder-form">
+                      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="user.id">
+                     <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                          <p class="title-order">Họ tên</p>
+                          <input type="text" name="hoTen" #hoTen="ngModel" [(ngModel)]="user.hoTen" class="form-control" required>
+                        <p *ngIf="hoTen.errors?.required" class="valition-form">
+                            Nhập họ tên (*).
+                        </p>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                          <p class="title-order">Số điện thoại</p>
+                          <input type="number" name="sdt" #sdt="ngModel" [(ngModel)]="user.sdt" class="form-control" required>
+                        <p *ngIf="sdt.errors?.required" class="valition-form">
+                            Nhập số điện thoại (*).
+                        </p>
+                        </div>
+                       
+                     </div>
+                     <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                        <p class="title-order">Địa chỉ</p>
+                        <input type="text" name="diaChi" #diaChi="ngModel" [(ngModel)]="user.diaChi" class="form-control" required>
+                      <p *ngIf="diaChi.errors?.required" class="valition-form">
+                          Nhập địa chỉ (*).
+                      </p>
+                      </div>
+                      <div class="col-md-6 col-sm-6">
+                        <p class="title-order">Biển số</p>
+                        <input type="text" name="bienSo" #bienSo="ngModel" [(ngModel)]="user.bienSo" class="form-control" required>
+                      
+                      <p *ngIf="bienSo.errors?.required" class="valition-form">
+                          Nhập biển số (*).
+                      </p>
+                  </div>
+                  
+                     </div>
+
+                     <div class="row">
+                     
+                         <div class="col-md-3 col-sm-3">
+                          <p class="title-order">Ảnh đăng ký mặt trước</p>
+                          <input type="file" (change) = "ChangeSelectedFile($event,'anhDangKyMatTruoc')"  class="form-control">
+                     
+                         
+                          <div *ngIf="anhDangKyMatTruocUrl " class="thumbnail">
+                            <img [src]="anhDangKyMatTruocUrl">
+                            
+                          </div>
+                     
+                       
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                      <p class="title-order">Ảnh đăng ký mặt sau</p>
+                      <input type="file" (change) = "ChangeSelectedFile($event,'anhDangKyMatSau')"  class="form-control">
+                      <div *ngIf="anhDangKyMatSauUrl" class="thumbnail">
+                        <img [src]="anhDangKyMatSauUrl">
+                      </div>
+                </div>
+                        
+                   
+              
+                     </div>
+            
+                     <div class="row">
+                       <div class="col-md-12 col-sm-12">
+                          <button type="submit" class="btn btn-primary" [disabled]="!UserForm.valid"><i class="glyphicon glyphicon-floppy-disk"></i> Lưu</button>
+                          <button type="button" (click)="cancel(UserForm)" class="btn btn-default   pull-right"><i class="glyphicon glyphicon-remove"></i> Hủy</button>
+                       </div>
+                     </div>
+                   </div>
+        
+            </div>
+          
+          </form>
+        </div>
+   
+    </div>
+  </div>
+ 
+</div>
+
+

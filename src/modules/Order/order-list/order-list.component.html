@@ -1,0 +1,207 @@
+<div class=" content-header">
+  <h1>Quản Lý Đơn Hàng</h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li>
+      <a href="#">Quản Lý Đơn Hàng</a>
+    </li>
+
+  </ol>
+</div>
+<div class="content">
+  <div class="box box-info">
+    <div class="box-header with-border" translate>
+
+      <div class="pull-left">
+        <h3 class="box-title" style="line-height:27px"> Sách Đơn Đặt Hàng</h3>
+      </div>
+      <a routerLink="add"> <button type="button" class="btn btn-large  btn-default btn-add-list pull-right" (click)="onCreate()">
+          <span class="glyphicon glyphicon-plus"></span>
+          Tạo Mới</button>
+      </a>
+
+    </div>
+    <div class="box-body">
+      <div class="box box-warning box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header">Tìm Kiếm</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-5">
+                <input (keyup.enter)="loadListData()" type="text" name="tenHang" #ten="ngModel" class="form-control" [(ngModel)]="tenHang" placeholder="Nhập tên đơn hàng">
+              </div>
+              <div class="col-md-5">
+                <input (keyup.enter)="loadlocation()" type="text" name="diemNhanHang" #diemNhan="ngModel" class="form-control" [(ngModel)]="diemNhanHang" placeholder="Nhập điểm nhận hàng">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-large  btn-default btn-search" (click)="searchbutton(tenHang,diemNhanHang)">
+                  <i class="glyphicon glyphicon-search"></i>
+                  Tìm Kiếm</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="box box-danger box-solid">
+        <!-- Default panel contents -->
+        <div class="box-header"> Danh Sách</div>
+        
+        <table class="table table-bordered table-hover dataTable">
+          <tr class="title-list">
+            <th>STT</th>
+            <th>Tên Hàng</th>
+            <th>SĐT người gửi</th>
+            <th>SĐT người nhận</th>
+            <th>Nơi Nhận</th>
+            <th>Nơi Trả</th>
+            <th>Trạng Thái</th>
+            <th class="col-sm-1"></th>
+          </tr>
+          <tr *ngFor="let data of orderList ; index as i " [ngClass]="i%2==0 ? 'cusor' : 'cusor trClass'" (click)="getDetailProduct(data.id)">
+            <td data-toggle="modal" data-target="#myModal1">{{pageSize*(currentPage-1) +i+1}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.tenHang}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.soDienThoaiNguoiGui}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.soDienThoaiNguoiNhan}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.diemNhanHang}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.diemTraHang}}</td>
+            <td data-toggle="modal" data-target="#myModal1">{{data.statusName}}</td>
+            <td>
+              <div class="col-sm-6 text-center">
+                <a routerLink="edit/{{data.id}}" (click)="onEdit(data)">
+                  <i class="glyphicon glyphicon-edit"></i>
+                </a>
+              </div>
+              <div class="col-sm-6 text-center">
+                <a (click)="onDelete(data.id)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
+              </div>
+            </td>
+
+          </tr>
+          <tr *ngIf="orderList?.length < 1">
+            <td>không có bản ghi</td>
+          </tr>
+        </table>
+        <div class="form-group pull-left" style="margin-top: 20px">
+          <select #pageDown class="form-control" id="sel1" name="pagedown" (change)="Changed(pageDown.value)">
+            <option hidden>Hiển thị dòng</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+          </select>
+
+        </div>
+        <div class="form-group pull-left" style="margin-top: 20px ; margin-left: 10px">
+          <select #sortDate class="form-control" id="sel2" name="sortdate" (change)="Sort(sortDate.value)">
+            <option hidden>Sắp xếp theo</option>
+            <option value="0">Cũ nhất</option>
+            <option value="1">Mới nhất</option>
+          </select>
+
+        </div>
+
+        <pagination class="pull-right" [totalItems]="totalRecord" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+        
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+  <div class="modal-dialog list-product order-big-modal">
+
+    <!-- Modal content-->
+    <div class="modal-content ct-donhang order-donhang">
+      <div class="row">
+        <h3 class="order-detail">Thông tin đơn hàng</h3>
+        <div class="col-md-7">
+          <ul>
+            <li style="list-style: none;"><img style="max-width: 100%; height: auto;" src="{{detailProduct.imageUrl}}"></li>
+            <li><span class="title-list">Mã đơn hàng:</span><span>{{detailProduct.maDonHang}}</span></li>
+            <li><span class="title-list">Tên hàng:</span><span>{{detailProduct.tenHang}}</span></li>
+            <li><span class="title-list">Điểm nhận hàng:</span><span>{{detailProduct.diemNhanHang}}</span></li>
+            <li><span class="title-list">Điểm trả hàng:</span><span>{{detailProduct.diemTraHang}}</span></li>
+            <li><span class="title-list">Ngày bốc hàng:</span><span>{{detailProduct.ngayBocHang | date:"dd/MM/yyyy"}}</span></li>
+            <li><span class="title-list">Số điện thoại người gửi:</span><span>{{detailProduct.soDienThoaiNguoiGui}}</span></li>
+            <li><span class="title-list">Số điện thoại người nhận:</span><span>{{detailProduct.soDienThoaiNguoiNhan}}</span></li>
+            <li><span class="title-list">Khối lượng:</span><span>{{detailProduct.khoiLuong | number}}
+                {{donViTinhKhoiLuong}}</span></li>
+            <li><span class="title-list">Chiều dài:</span><span>{{detailProduct.dai | number}} {{donViTinhTheTich}}</span></li>
+            <li><span class="title-list">Chiều rộng:</span><span>{{detailProduct.rong | number}} {{donViTinhTheTich}}</span></li>
+            <li><span class="title-list">Chiều cao:</span><span>{{detailProduct.cao | number}} {{donViTinhTheTich}}</span></li>
+            <li><span class="title-list">Điểm nhận tiền:</span><span>{{detailProduct.diemNhanTien}}</span></li>
+            <li><span class="title-list">Giá khách hàng đưa:</span><span>{{detailProduct.giaKhachHangDua | number}} VND</span></li>
+          </ul>
+
+        </div>
+        <div class="col-md-5">
+          <div id="qchidden">
+            <div class=" qcbackground">
+
+              <div id="print-image" class="qrcode-image">
+
+                <qrcode [qrdata]="angularxQrCode" [size]="200" [level]="'M'"></qrcode>
+
+              </div>
+              <p class="madh">{{angularxQrCode}}</p>
+              <div class="print-qrcode" style="margin:20px 68px  22px">
+                <button type="button" (click)='print()' class="btn btn-success">In mã QRCode</button>
+              </div>
+            </div>
+          </div>
+          <div class="giaohang {{classgiaohang}}">
+            <button class="btn btn-info" data-toggle="modal" data-target="#myModal2" >Giao hàng cho lái xe</button>
+          </div>
+        </div>
+        <!-- <div class="giaohang {{classgiaohang}}">
+          <p data-toggle="modal" data-target="#myModal2">Giao hàng cho lái xe</p>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="myModal2" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Thông tin lái xe</h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" #madon [value]="detailProduct.maDonHang">
+        <input type="hidden" #iddonhang [value]="detailProduct.id">
+        <input type="hidden" #status value="2">
+        <p class="title-order">Trạng thái: <span style="font-weight: 300; margin-left: 10px">Asign</span></p>
+        <p class="title-order">Tên lái xe :</p>
+        <select class="form-control" #laixe name="laixe">
+          <option value="">--chọn--</option>
+          <option *ngFor="let valLaixe of laixeList" [value]="valLaixe.id">{{valLaixe.hoTen}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Đóng</button>
+        <button type="submit" class="btn btn-primary" (click)="updateLaxe(laixe.value,iddonhang.value, madon.value)">
+          <i class="glyphicon glyphicon-floppy-disk"></i> Giao Hàng</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
